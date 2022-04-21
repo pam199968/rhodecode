@@ -35,12 +35,12 @@ app "rhodecode-redis" {
 
 variable "datacenter" {
     type    = string
-    default = "henix_docker_platform_dev"
+    default = "henix_docker_platform_integ"
 }
 
 variable "image" {
     type    = string
-    default = "prosanteconnect/rhodecode-redis"
+    default = "ans/rhodecode-redis"
 }
 
 variable "tag" {
