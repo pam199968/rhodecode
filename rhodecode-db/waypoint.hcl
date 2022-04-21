@@ -1,4 +1,4 @@
-project = "forge/rhodecode"
+project = "forge/rhodecode/rhodecode-db"
 
 labels = { "domaine" = "forge" }
 
@@ -7,12 +7,12 @@ runner {
     data_source "git" {
         url  = "https://github.com/eriegel/rhodecode.git"
         ref  = "main"
-		path = ""
+		path = "/rhodecode-db"
 		ignore_changes_outside_path = true
     }
 }
 
-app "forge/rhodecode" {
+app "rhodecode-db" {
 
     build {
         use "docker-pull" {
