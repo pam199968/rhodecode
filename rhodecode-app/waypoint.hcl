@@ -5,9 +5,9 @@ labels = { "domaine" = "forge" }
 runner {
     enabled = true
     data_source "git" {
-        url  = "https://github.com/eriegel/rhodecode.git"
+        url  = "https://github.com/erickriegel/rhodecode.git"
         ref  = "main"
-		path = "/rhodecode-app"
+		path = "rhodecode-app/"
 		ignore_changes_outside_path = true
     }
 }
