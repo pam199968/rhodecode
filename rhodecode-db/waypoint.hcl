@@ -35,7 +35,7 @@ app "rhodecode-db" {
 
 variable "datacenter" {
     type    = string
-    default = "henix_docker_platform_dev"
+    default = "henix_docker_platform_integ"
 }
 
 variable "image" {
