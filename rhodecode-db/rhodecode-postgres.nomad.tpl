@@ -50,7 +50,7 @@ EOH
                         mount {
                                 type = "volume"
                                 target = "/var/lib/postgresql/data"
-                                source = "rh-pgdata"
+                                source = "rhodecode-pgdata"
                                 readonly = false
                                 volume_options {
                                         no_copy = false
