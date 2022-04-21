@@ -7,7 +7,7 @@ runner {
     data_source "git" {
         url  = "https://github.com/eriegel/rhodecode.git"
         ref  = "main"
-		path = "/rhodecode-db"
+		path = "rhodecode-db/"
 		ignore_changes_outside_path = true
     }
 }
