@@ -14,7 +14,7 @@ job "rhodecode-community" {
                 count = "1"
                 # install only on "data" nodes
                 constraint {
-                                attribute = "${node.class}"
+                                attribute = "$\u007Bnode.class\u007D"
                                 value     = "data"
                 }
                 restart {
@@ -261,7 +261,7 @@ EOT
 ; ##########################################
 [DEFAULT]
 ; Debug flag sets all loggers to debug, and enables request tracking
-debug = true
+debug = false
 
 ########################################################################
 ; EMAIL CONFIGURATION
@@ -405,7 +405,6 @@ sqlalchemy.db1.convert_unicode = true
 ; ##########
 vcs.server.enable = true
 vcs.start_server = false
-;vcs.server = {{ range service "rhodecode-vcsserver" }}{{ .Address }}:{{ .Port }}{{ end }}
 vcs.server = 127.0.0.1:10010
 vcs.server.protocol = http
 vcs.scm_app_implementation = http
@@ -413,7 +412,6 @@ vcs.hooks.protocol = http
 ; Host on which this instance is listening for hooks. If vcsserver is in other location, this should be adjuste
 vcs.hooks.host = 127.0.0.1
 vcs.hooks.direct_calls = false
-;vcs.hooks.host = {{ env "NOMAD_ADDR_rhodecode" }}
 vcs.backends = git, svn
 vcs.connection_timeout = 3600
 svn.proxy.generate_config = true
@@ -526,14 +524,14 @@ EOT
                         }
                         config {
                                 image = "${image}:${tag}"
-                                extra_hosts = [ "svn:${NOMAD_IP_rhodecode}" ]
+                                extra_hosts = [ "svn:$\u007BNOMAD_IP_rhodecode\u007D" ]
                                 command = "sh"
                                 args = [ "/local/run.sh" ]
                                 ports = ["rhodecode", "vcsserver"]
                                 mount {
                                   type = "volume"
                                   target = "/var/opt/rhodecode_repo_store"
-                                  source = "rh-repos"
+                                  source = "rhodecode-repos"
                                   readonly = false
                                   volume_options {
                                         no_copy = false
@@ -541,8 +539,8 @@ EOT
                                           name = "pxd"
                                           options {
                                                 io_priority = "high"
-                                                shared = "v4"
-                                                size = 10
+                                                shared = true
+                                                size = 20
                                                 repl = 2
                                           }
                                         }
@@ -551,7 +549,7 @@ EOT
                                 mount {
                                   type = "volume"
                                   target = "/etc/rhodecode/conf"
-                                  source = "rh-conf"
+                                  source = "rhodecode-conf"
                                   readonly = false
                                   volume_options {
                                         no_copy = false
@@ -559,7 +557,7 @@ EOT
                                           name = "pxd"
                                           options {
                                                 io_priority = "high"
-                                                shared = "v4"
+                                                shared = true
                                                 size = 1
                                                 repl = 2
                                           }
@@ -569,7 +567,7 @@ EOT
                                 mount {
                                   type = "volume"
                                   target = "/var/opt/rhodecode_data"
-                                  source = "rh-data"
+                                  source = "rhodecode-data"
                                   readonly = false
                                   volume_options {
                                         no_copy = false
@@ -577,8 +575,8 @@ EOT
                                           name = "pxd"
                                           options {
                                                 io_priority = "high"
-                                                shared = "v4"
-                                                size = 10
+                                                shared = true
+                                                size = 1
                                                 repl = 2
                                           }
                                         }
@@ -607,7 +605,7 @@ EOT
                                         memory = 7168
                         }
                         service {
-                                name = "${NOMAD_TASK_NAME}-http"
+                                name = "$\u007BNOMAD_TASK_NAME\u007D-http"
                                 tags = ["urlprefix-/rhodecode"]
                                 port = "rhodecode"
                                 check {
@@ -620,7 +618,7 @@ EOT
                                 }
                         }
                         service {
-                                name = "${NOMAD_JOB_NAME}-vcsserver"
+                                name = "$\u007BNOMAD_JOB_NAME\u007D-vcsserver"
                                 port = "vcsserver"
                                 check {
                                         name         = "vcsserver-alive"
