@@ -34,7 +34,7 @@ job "rhodecode-svn" {
                                 mount {
                                         type = "volume"
                                         target = "/etc/rhodecode/conf"
-                                        source = "rh-conf"
+                                        source = "rhodecode-conf"
                                         readonly = false
                                         volume_options {
                                                 no_copy = false
@@ -109,7 +109,7 @@ EOT
                                 mount {
                                         type = "volume"
                                         target = "/var/opt/rhodecode_repo_store"
-                                        source = "rh-repos"
+                                        source = "rhodecode-repos"
                                         readonly = false
                                         volume_options {
                                                 no_copy = false
@@ -118,7 +118,7 @@ EOT
                                                         options {
                                                                 io_priority = "high"
                                                                 shared = true
-                                                                size = 100
+                                                                size = 20
                                                                 repl = 2
                                                         }
                                                 }
@@ -127,7 +127,7 @@ EOT
                                 mount {
                                         type = "volume"
                                         target = "/etc/rhodecode/conf"
-                                        source = "rh-conf"
+                                        source = "rhodecode-conf"
                                         readonly = false
                                         volume_options {
                                                 no_copy = false
@@ -136,7 +136,7 @@ EOT
                                                         options {
                                                                         io_priority = "high"
                                                                         shared = true
-                                                                        size = 20
+                                                                        size = 1
                                                                         repl = 2
                                                                         }
                                                                 }
