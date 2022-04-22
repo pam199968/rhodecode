@@ -78,7 +78,7 @@ EOT
 LoadModule headers_module /usr/lib/apache2/modules/mod_headers.so
 LoadModule authn_anon_module /usr/lib/apache2/modules/mod_authn_anon.so
 
-<VirtualHost *$\u007BMOD_DAV_SVN_PORT\u007D>
+<VirtualHost *:$\u007BMOD_DAV_SVN_PORT\u007D>
     ServerAdmin admin@localhost
     DocumentRoot /var/opt/www
     ErrorLog $\u007BAPACHE_LOG_DIR\u007D/svn_error.log
