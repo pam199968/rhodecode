@@ -1,6 +1,10 @@
 job "rhodecode-celery" {
         datacenters = ["${datacenter}"]
         type = "service"
+        vault {
+                policies = ["forge"]
+                change_mode = "restart"
+        }
         update {
                 stagger = "30s"
                 max_parallel = 1
