@@ -35,7 +35,7 @@ app "rhodecode-svn" {
 
 variable "datacenter" {
     type    = string
-    default = "henix_docker_platform_integ"
+    default = "henix_docker_platform_test"
 }
 
 variable "image" {
