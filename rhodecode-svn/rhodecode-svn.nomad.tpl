@@ -78,7 +78,7 @@ EOT
 LoadModule headers_module /usr/lib/apache2/modules/mod_headers.so
 LoadModule authn_anon_module /usr/lib/apache2/modules/mod_authn_anon.so
 
-<VirtualHost *:${MOD_DAV_SVN_PORT}>
+<VirtualHost *:$\u007BMOD_DAV_SVN_PORT\u007D>
     ServerAdmin admin@localhost
     DocumentRoot /var/opt/www
     ErrorLog ${APACHE_LOG_DIR}/svn_error.log
@@ -93,7 +93,7 @@ LoadModule authn_anon_module /usr/lib/apache2/modules/mod_authn_anon.so
     # allows custom host names, prevents 400 errors on checkout
     HttpProtocolOptions Unsafe
 
-    Include ${MOD_DAV_SVN_CONF_FILE}
+    Include $\u007MOD_DAV_SVN_CONF_FILE\u007D
 </VirtualHost>
 EOT
                                 destination = "local/virtualhost.conf"
