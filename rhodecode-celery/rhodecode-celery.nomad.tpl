@@ -293,41 +293,6 @@ EOT
                                 destination = "secrets/rhodecode.optimized.ini"
 
                         }
-						mount {
-								type = "volume"
-								target = "/var/opt/rhodecode_data"
-								source = "rhodecode-data"
-								readonly = false
-								volume_options {
-										no_copy = false
-										driver_config {
-												name = "pxd"
-												options {
-														io_priority = "high"
-														size = 1
-														repl = 2
-												}
-										}
-								}
-						}
-						mount {
-								type = "volume"
-								target = "/var/opt/rhodecode_repo_store"
-								source = "rhodecode-repos"
-								readonly = false
-								volume_options {
-										no_copy = false
-										driver_config {
-												name = "pxd"
-												options {
-														io_priority = "high"
-														shared = true
-														size = 20
-														repl = 2
-												}
-										}
-								}
-						}
                         config {
                                 image = "${image}:${tag}"
                                 command = "/var/opt/rhodecode_bin/bin/celery"
@@ -340,6 +305,41 @@ EOT
                                                 "--loglevel=DEBUG",
                                                 "--ini=/secrets/rhodecode.optimized.ini"
                                                 ]
+								mount {
+										type = "volume"
+										target = "/var/opt/rhodecode_data"
+										source = "rhodecode-data"
+										readonly = false
+										volume_options {
+												no_copy = false
+												driver_config {
+														name = "pxd"
+														options {
+																io_priority = "high"
+																size = 1
+																repl = 2
+														}
+												}
+										}
+								}
+								mount {
+										type = "volume"
+										target = "/var/opt/rhodecode_repo_store"
+										source = "rhodecode-repos"
+										readonly = false
+										volume_options {
+												no_copy = false
+												driver_config {
+														name = "pxd"
+														options {
+																io_priority = "high"
+																shared = true
+																size = 20
+																repl = 2
+														}
+												}
+										}
+								}
                                 mount {
                                         type = "bind"
                                         target = "/var/log/rhodecode"
