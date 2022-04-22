@@ -66,6 +66,9 @@ job "rhodecode-svn" {
                         template {
                                 data =<<EOT
 RC_APP_TYPE="rhodecode_svn"
+MOD_DAV_SVN_PORT=8090
+APACHE_LOG_DIR="/var/log/rhodecode/svn"
+MOD_DAV_SVN_CONF_FILE="/etc/rhodecode/conf/svn/mod_dav_svn.conf"
 EOT
                                 destination="secrets/file.env"
                                 env = true
