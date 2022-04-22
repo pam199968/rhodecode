@@ -1,10 +1,6 @@
 job "rhodecode-celery" {
         datacenters = ["${datacenter}"]
         type = "service"
-        vault {
-                policies = ["forge"]
-                change_mode = "restart"
-        }
         update {
                 stagger = "30s"
                 max_parallel = 1
@@ -14,7 +10,7 @@ job "rhodecode-celery" {
                 count = "1"
                 # install only on "data" nodes
                 constraint {
-                                attribute = "${node.class}"
+                                attribute = "$\u007Bnode.class\u007D"
                                 value     = "data"
                 }
                 restart {
@@ -23,27 +19,6 @@ job "rhodecode-celery" {
                                 interval = "1h"
                                 mode = "fail"
                 }
-                volume "rhodecode_data" {
-                        type            = "csi"
-                        source          = "rh-data"
-                        read_only        = false
-                        attachment_mode = "file-system"
-                        access_mode     = "multi-node-multi-writer"
-                        mount_options {
-                                fs_type     = "ext4"
-                        }
-                }
-                volume "rhodecode_repos" {
-                        type            = "csi"
-                        source          = "rh-repos"
-                        read_only        = false
-                        attachment_mode = "file-system"
-                        access_mode     = "multi-node-multi-writer"
-                        mount_options {
-                                fs_type     = "ext4"
-                        }
-                }
-
                 task "rhodecode-celery" {
                         driver = "docker"
                         template {
@@ -66,7 +41,6 @@ EOT
 [DEFAULT]
 ; Debug flag sets all loggers to debug, and enables request tracking
 debug = false
-
 ########################################################################
 ; EMAIL CONFIGURATION
 ; These settings will be used by the RhodeCode mailing system
@@ -79,7 +53,6 @@ debug = false
 #smtp_port =
 #smtp_use_tls = false
 #smtp_use_ssl = true
-
 [server:main]
 ; COMMON HOST/IP CONFIG
 host = 0.0.0.0
@@ -320,15 +293,41 @@ EOT
                                 destination = "secrets/rhodecode.optimized.ini"
 
                         }
-                        volume_mount {
-                                volume      = "rhodecode_data"
-                                destination = "/var/opt/rhodecode_data"
-                        }
-                        volume_mount {
-                                volume      = "rhodecode_repos"
-                                destination = "/var/opt/rhodecode_repo_store"
-                        }
-
+						mount {
+								type = "volume"
+								target = "/var/opt/rhodecode_data"
+								source = "rhodecode-data"
+								readonly = false
+								volume_options {
+										no_copy = false
+										driver_config {
+												name = "pxd"
+												options {
+														io_priority = "high"
+														size = 1
+														repl = 2
+												}
+										}
+								}
+						}
+						mount {
+								type = "volume"
+								target = "/var/opt/rhodecode_repo_store"
+								source = "rhodecode-repos"
+								readonly = false
+								volume_options {
+										no_copy = false
+										driver_config {
+												name = "pxd"
+												options {
+														io_priority = "high"
+														shared = true
+														size = 20
+														repl = 2
+												}
+										}
+								}
+						}
                         config {
                                 image = "${image}:${tag}"
                                 command = "/var/opt/rhodecode_bin/bin/celery"
