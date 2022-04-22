@@ -93,7 +93,7 @@ LoadModule authn_anon_module /usr/lib/apache2/modules/mod_authn_anon.so
     # allows custom host names, prevents 400 errors on checkout
     HttpProtocolOptions Unsafe
 
-    Include (env "MOD_DAV_SVN_CONF_FILE")
+    # Include (env "MOD_DAV_SVN_CONF_FILE")
 </VirtualHost>
 EOT
                                 destination = "local/virtualhost.conf"
