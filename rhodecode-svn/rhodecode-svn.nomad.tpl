@@ -82,12 +82,13 @@ LoadModule authn_anon_module /usr/lib/apache2/modules/mod_authn_anon.so
     ServerAdmin admin@localhost
     DocumentRoot /var/opt/www
     ErrorLog $\u007BAPACHE_LOG_DIR\u007D/svn_error.log
-    #CustomLog $\u007BAPACHE_LOG_DIR/svn_access.log combined
+    CustomLog $\u007BAPACHE_LOG_DIR\u007D/svn_access.log combined
     LogLevel info
 
     <Location /_server_status>
         SetHandler server-status
-        Allow from all
+        #Allow from all
+        Require ip 10.3.0.0/16
     </Location>
 
     # allows custom host names, prevents 400 errors on checkout
@@ -171,7 +172,8 @@ EOT
                                 tags = [ "urlprefix-svn/" ]
                                 check {
                                         name         = "alive"
-                                        type         = "tcp"
+                                        type         = "http"
+                                        path         = "/_server_status?auto"
                                         interval     = "10s"
                                         timeout      = "2s"
                                         port         = "webdav"
