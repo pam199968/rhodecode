@@ -8,7 +8,6 @@ job "rhodecode-redis" {
 
         group "rhodecode-redis" {
                 count = 1
-
                 restart {
                   attempts = 3
                   delay = "60s"
@@ -31,26 +30,29 @@ job "rhodecode-redis" {
                 network {
                   port "redis" { to = 6379 }
                 }
-                volume "rhodecode_data" {
-                        type            = "csi"
-                        source          = "rh-data"
-                        read_only        = false
-                        attachment_mode = "file-system"
-                        access_mode     = "multi-node-multi-writer"
-                        mount_options {
-                                fs_type     = "ext4"
-                        }
-                }
 
                 task "rhodecode-redis" {
                         driver = "docker"
-                        volume_mount {
-                                volume      = "rhodecode_data"
-                                destination = "/var/opt/rhodecode_data"
-                        }
                         config {
                                 image = "${image}:${tag}"
                                 ports = ["redis"]
+								mount {
+										type = "volume"
+										target = "/var/opt/rhodecode_data"
+										source = "rhodecode-data"
+										readonly = false
+										volume_options {
+												no_copy = false
+												driver_config {
+														name = "pxd"
+														options {
+																io_priority = "high"
+																size = 1
+																repl = 2
+														}
+												}
+										}
+								}
                                 mount {
                                         type   = "bind"
                                         target = "/var/log/rhodecode"
