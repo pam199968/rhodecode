@@ -40,7 +40,7 @@ variable "datacenter" {
 
 variable "image" {
     type    = string
-    default = "prosanteconnect/rhodecode-app"
+    default = "ans/rhodecode-app"
 }
 
 variable "tag" {
