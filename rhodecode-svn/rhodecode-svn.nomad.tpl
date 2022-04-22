@@ -14,7 +14,7 @@ job "rhodecode-svn" {
                 count = "1"
                 # install only on "data" nodes
                 constraint {
-                                attribute = "${node.class}"
+                                attribute = "$\u007Bnode.class\u007D"
                                 value     = "data"
                 }
                 restart {
@@ -166,7 +166,7 @@ EOT
                                         memory = 512
                         }
                         service {
-                                name = "${NOMAD_JOB_NAME}"
+                                name = "$\u007BNOMAD_JOB_NAME\u007D"
                                 port = "webdav"
                                 tags = [ "urlprefix-svn/" ]
                                 check {
