@@ -24,7 +24,7 @@ app "rhodecode-app" {
   
     deploy{
         use "nomad-jobspec" {
-            jobspec = templatefile("${path.app}/rhodecode-app.nomad.tpl", {
+            jobspec = templatefile("${path.app}/rhodecode-community.nomad.tpl", {
             image   = var.image
             tag     = var.tag
             datacenter = var.datacenter
